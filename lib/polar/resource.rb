@@ -5,12 +5,14 @@ module Polar
     private
 
     class << self
-      def handle_list(response)
-        response.fetch("items").map { |attributes| new(attributes) }
+      def handle_list(response, klass = nil)
+        klass ||= self
+        response.fetch("items").map { |attributes| klass.new(attributes) }
       end
 
-      def handle_one(response)
-        new(response)
+      def handle_one(response, klass = nil)
+        klass ||= self
+        klass.new(response)
       end
 
       def handle_none(response)

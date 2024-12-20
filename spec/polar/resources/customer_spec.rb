@@ -12,7 +12,7 @@ module Polar
     end
 
     describe ".create" do
-      it "creates a customer", :vcr do
+      it "creates a customer", vcr: {match_requests_on: [:method, :uri]} do
         customer = Polar::Customer.create(
           email: random_email,
           name: "Test Customer",
