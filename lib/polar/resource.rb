@@ -12,6 +12,10 @@ module Polar
       def handle_one(response)
         new(response)
       end
+
+      def handle_none(response)
+        response
+      end
     end
   end
 end

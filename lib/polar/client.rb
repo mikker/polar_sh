@@ -38,7 +38,7 @@ module Polar
 
       def delete_request(path, **params)
         response = connection.delete(path, json: params)
-        return response.parse if response.status.success?
+        return true if response.status.success?
         raise Error.from_response(response)
       end
     end

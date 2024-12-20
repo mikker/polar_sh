@@ -11,10 +11,11 @@ module Polar
   autoload :Error, "polar/error"
   autoload :Resource, "polar/resource"
 
-  autoload :User, "polar/resources/user"
-  autoload :Product, "polar/resources/product"
-  autoload :Organization, "polar/resources/organization"
+  autoload :Discount, "polar/resources/discount"
   autoload :LicenseKey, "polar/resources/license_key"
+  autoload :Organization, "polar/resources/organization"
+  autoload :Product, "polar/resources/product"
+  autoload :User, "polar/resources/user"
 
   class << self
     attr_writer :config
