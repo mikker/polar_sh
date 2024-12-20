@@ -11,6 +11,7 @@ module Polar
   autoload :Error, "polar/error"
   autoload :Resource, "polar/resource"
 
+  autoload :Customer, "polar/resources/customer"
   autoload :Discount, "polar/resources/discount"
   autoload :LicenseKey, "polar/resources/license_key"
   autoload :Organization, "polar/resources/organization"
