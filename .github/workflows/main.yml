@@ -15,6 +15,9 @@ jobs:
       matrix:
         ruby:
           - '3.3.6'
+    env:
+      POLAR_API_KEY: ${{ secrets.POLAR_API_KEY }}
+      POLAR_ORGANIZATION_ID: ${{ secrets.POLAR_ORGANIZATION_ID }}
 
     steps:
       - uses: actions/checkout@v4
