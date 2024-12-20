@@ -2,7 +2,7 @@
 
 module Polar
   class Configuration
-    attr_accessor :api_key
+    attr_accessor :access_token
     attr_accessor :sandbox
 
     alias sandbox? sandbox

@@ -9,7 +9,7 @@ module Polar
         @connection ||= HTTP
           .persistent(Polar.config.endpoint)
           .follow
-          .auth("Bearer #{Polar.config.api_key}")
+          .auth("Bearer #{Polar.config.access_token}")
           .headers(
             accept: "application/json",
             content_type: "application/json",

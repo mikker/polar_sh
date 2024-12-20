@@ -1,6 +1,6 @@
 # Polar.sh Ruby API client
 
-Still in development
+Still in development. [API docs](https://docs.polar.sh/api)
 
 ## Installation
 
@@ -12,8 +12,8 @@ bundle add polar_sh
 
 ```ruby
 Polar.configure do |config|
-  api_key = "polar_..."
-  sandbox = true
+  config.access_token = "polar_..."
+  config.sandbox = true
 end
 
 # Fetch a list of customers

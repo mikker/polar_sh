@@ -6,10 +6,10 @@ RSpec.describe Polar do
       Polar.configure do |config|
         expect(config).to(be_a(Polar::Configuration))
 
-        config.api_key = "123"
+        config.access_token = "123"
       end
 
-      expect(Polar.config.api_key).to(eq("123"))
+      expect(Polar.config.access_token).to(eq("123"))
     end
 
     it "can use sandbox" do
