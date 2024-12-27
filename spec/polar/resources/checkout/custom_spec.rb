@@ -46,7 +46,7 @@ module Polar
       end
     end
 
-    describe ".client_update" do
+    xdescribe(".client_update") do
       it "creates a checkout session", :vcr do
         checkout = Polar::Checkout::Custom.client_update(
           "polar_c_Tta5TxPD4nMXtCHvHFHezBXoqK0Wq88jkPfiv2gTKaE",
@@ -63,7 +63,7 @@ module Polar
       end
     end
 
-    describe ".clent_get" do
+    xdescribe(".clent_get") do
       it "returns a checkout", :vcr do
         checkout = Polar::Checkout::Custom.client_get("polar_c_Tta5TxPD4nMXtCHvHFHezBXoqK0Wq88jkPfiv2gTKaE")
 

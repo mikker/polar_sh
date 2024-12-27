@@ -16,6 +16,7 @@ module Polar
   autoload :Discount, "polar/resources/discount"
   autoload :Checkout, "polar/resources/checkout"
   autoload :LicenseKey, "polar/resources/license_key"
+  autoload :Order, "polar/resources/order"
   autoload :Organization, "polar/resources/organization"
   autoload :Product, "polar/resources/product"
   autoload :User, "polar/resources/user"
