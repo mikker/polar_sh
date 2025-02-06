@@ -4,12 +4,14 @@ require "ostruct"
 require "http"
 
 require_relative "polar/version"
+require "standard_webhooks"
 
 module Polar
   autoload :Configuration, "polar/configuration"
   autoload :Client, "polar/client"
   autoload :Error, "polar/error"
   autoload :Resource, "polar/resource"
+  autoload :Webhook, "polar/webhook"
 
   autoload :Customer, "polar/resources/customer"
   autoload :CustomerSession, "polar/resources/customer_session"

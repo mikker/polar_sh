@@ -4,6 +4,7 @@ module Polar
   class Configuration
     attr_accessor :access_token
     attr_accessor :sandbox
+    attr_accessor :webhook_secret
 
     alias sandbox? sandbox
 
