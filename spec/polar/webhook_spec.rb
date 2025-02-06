@@ -4,6 +4,7 @@ RSpec.describe Polar::Webhook do
   # Base64 encoded "secret"
   let(:webhook_secret) { "c2VjcmV0" }
   let(:raw_payload) { "{\"type\":\"test\"}" }
+
   let(:headers) do
     {
       "webhook-id" => "123",
@@ -38,7 +39,7 @@ RSpec.describe Polar::Webhook do
 
   describe "#verify" do
     it "returns true if the event is valid" do
-      allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(double(verify: true))
+      allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(double(verify: JSON.parse(raw_payload)))
       expect(described_class.new(request).verify).to(eq("type" => "test"))
     end
 
@@ -46,7 +47,39 @@ RSpec.describe Polar::Webhook do
       allow(StandardWebhooks::Webhook).to(receive(:new)).and_raise(
         StandardWebhooks::StandardWebhooksError.new("Invalid")
       )
-      expect { described_class.new(request).verify }.to(raise_error(Polar::Error))
+      expect { described_class.new(request).verify }.to(raise_error(StandardWebhooks::StandardWebhooksError))
+    end
+
+    context("with different resource types") do
+      let(:webhook) { StandardWebhooks::Webhook.new(webhook_secret) }
+      let(:mock_data) { {"id" => "123"} }
+
+      before do
+        allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(
+          double(verify: {"type" => resource_type, "data" => mock_data})
+        )
+      end
+
+      {
+        "checkout.created" => Polar::Checkout::Custom,
+        "order.created" => Polar::Order,
+        "product.created" => Polar::Product,
+        "organization.created" => Polar::Organization,
+        "subscription.created" => Polar::Subscription,
+        "refund.created" => Polar::Refund,
+        "benefit.created" => Polar::Benefit
+
+      }.each do |type, klass|
+        context("when type is #{type}") do
+          let(:resource_type) { type }
+
+          it "handles the #{type} event" do
+            expect(klass).to(receive(:handle_one).with(mock_data).and_return(mock_data))
+            result = described_class.new(request).verify
+            expect(result).to(eq({type: type, data: mock_data}))
+          end
+        end
+      end
     end
   end
 end

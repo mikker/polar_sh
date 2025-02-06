@@ -13,6 +13,7 @@ module Polar
   autoload :Resource, "polar/resource"
   autoload :Webhook, "polar/webhook"
 
+  autoload :Benefit, "polar/resources/benefit"
   autoload :Customer, "polar/resources/customer"
   autoload :CustomerSession, "polar/resources/customer_session"
   autoload :Discount, "polar/resources/discount"
@@ -21,6 +22,8 @@ module Polar
   autoload :Order, "polar/resources/order"
   autoload :Organization, "polar/resources/organization"
   autoload :Product, "polar/resources/product"
+  autoload :Refund, "polar/resources/refund"
+  autoload :Subscription, "polar/resources/subscription"
   autoload :User, "polar/resources/user"
 
   class << self
