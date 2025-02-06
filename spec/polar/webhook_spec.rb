@@ -43,7 +43,9 @@ RSpec.describe Polar::Webhook do
     end
 
     it "returns false if the event is invalid" do
-      allow(StandardWebhooks::Webhook).to(receive(:new)).and_raise(StandardWebhooks::StandardWebhooksError.new("Invalid"))
+      allow(StandardWebhooks::Webhook).to(receive(:new)).and_raise(
+        StandardWebhooks::StandardWebhooksError.new("Invalid")
+      )
       expect { described_class.new(request).verify }.to(raise_error(Polar::Error))
     end
   end

@@ -164,15 +164,14 @@ describe StandardWebhooks::Webhook do
   end
 
   it "sign function works" do
-    key = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+    key = "whsec_LaLaLaLaLaLaLaLaLaLaLaLaLaLaLaLa"
     msg_id = "msg_p5jXN8AQM9LWM0D4loKWxJek"
     timestamp = 1614265330
     payload = "{\"test\": 2432232314}"
-    expected = "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE="
+    expected = "v1,XMfT6uckOmtI3onRD7A9sBn/TQCpCruZIdxPo6hFggQ="
 
     wh = StandardWebhooks::Webhook.new(key)
     signature = wh.sign(msg_id, timestamp, payload)
     expect(signature).to(eq(expected))
   end
 end
-
