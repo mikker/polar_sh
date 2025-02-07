@@ -68,15 +68,15 @@ RSpec.describe Polar::Webhook do
         "subscription.created" => Polar::Subscription,
         "refund.created" => Polar::Refund,
         "benefit.created" => Polar::Benefit
-
       }.each do |type, klass|
         context("when type is #{type}") do
           let(:resource_type) { type }
 
           it "handles the #{type} event" do
-            expect(klass).to(receive(:handle_one).with(mock_data).and_return(mock_data))
             result = described_class.new(request).verify
-            expect(result).to(eq({type: type, data: mock_data}))
+            expect(result[:type]).to(eq(type))
+            expect(result[:data]).to(eq(mock_data))
+            expect(result[:object]).to(be_a(klass))
           end
         end
       end
