@@ -7,33 +7,36 @@ module Polar
 
       @secret = Base64.encode64(unencoded_secret)
       @request = request
-      @event = JSON.parse(request.raw_post)
+      @payload = JSON.parse(request.raw_post, symbolize_names: true)
+      @type = @payload[:type]
+      @object = cast_object
     end
 
-    attr_reader :secret, :request, :event
+    attr_reader :secret, :request, :payload, :type, :object
 
     def verify
-      response = StandardWebhooks::Webhook.new(secret).verify(request.raw_post, request.headers)
+      StandardWebhooks::Webhook.new(@secret).verify(request.raw_post, request.headers)
+      self
+    end
 
-      case (type = response["type"])
+    def cast_object
+      case type
       when /^checkout\./
-        {type:, data: response["data"], object: Checkout::Custom.handle_one(response["data"])}
+        Checkout::Custom.handle_one(payload[:data])
       when /^order\./
-        {type:, data: response["data"], object: Order.handle_one(response["data"])}
+        Order.handle_one(payload[:data])
       when /^subscription\./
-        {type:, data: response["data"], object: Subscription.handle_one(response["data"])}
+        Subscription.handle_one(payload[:data])
       when /^refund\./
-        {type:, data: response["data"], object: Refund.handle_one(response["data"])}
+        Refund.handle_one(payload[:data])
       when /^product\./
-        {type:, data: response["data"], object: Product.handle_one(response["data"])}
+        Product.handle_one(payload[:data])
       when /^pledge\./
-        {type:, data: response["data"], object: Pledge.handle_one(response["data"])}
+        Pledge.handle_one(payload[:data])
       when /^organization\./
-        {type:, data: response["data"], object: Organization.handle_one(response["data"])}
+        Organization.handle_one(payload[:data])
       when /^benefit\./
-        {type:, data: response["data"], object: Benefit.handle_one(response["data"])}
-      else
-        response
+        Benefit.handle_one(payload[:data])
       end
     end
 

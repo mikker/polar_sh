@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Polar::Webhook do
   # Base64 encoded "secret"
   let(:webhook_secret) { "c2VjcmV0" }
-  let(:raw_payload) { "{\"type\":\"test\"}" }
+  let(:payload) { {type: "test"} }
 
   let(:headers) do
     {
@@ -15,7 +15,7 @@ RSpec.describe Polar::Webhook do
 
   let(:request) do
     double(
-      raw_post: raw_payload,
+      raw_post: payload.to_json,
       headers: headers
     )
   end
@@ -31,16 +31,10 @@ RSpec.describe Polar::Webhook do
     end
   end
 
-  describe "#event" do
-    it "returns the event type" do
-      expect(described_class.new(request).event["type"]).to(eq("test"))
-    end
-  end
-
   describe "#verify" do
-    it "returns true if the event is valid" do
-      allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(double(verify: JSON.parse(raw_payload)))
-      expect(described_class.new(request).verify).to(eq("type" => "test"))
+    it "returns self if the event is valid" do
+      allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(double(verify: payload))
+      expect(described_class.new(request).verify).to(be_a(described_class))
     end
 
     it "returns false if the event is invalid" do
@@ -52,12 +46,9 @@ RSpec.describe Polar::Webhook do
 
     context("with different resource types") do
       let(:webhook) { StandardWebhooks::Webhook.new(webhook_secret) }
-      let(:mock_data) { {"id" => "123"} }
 
       before do
-        allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(
-          double(verify: {"type" => resource_type, "data" => mock_data})
-        )
+        allow(StandardWebhooks::Webhook).to(receive(:new)).and_return(double(verify: {}))
       end
 
       {
@@ -70,13 +61,13 @@ RSpec.describe Polar::Webhook do
         "benefit.created" => Polar::Benefit
       }.each do |type, klass|
         context("when type is #{type}") do
-          let(:resource_type) { type }
+          let(:payload) { {type:, data: {}} }
 
           it "handles the #{type} event" do
             result = described_class.new(request).verify
-            expect(result[:type]).to(eq(type))
-            expect(result[:data]).to(eq(mock_data))
-            expect(result[:object]).to(be_a(klass))
+            expect(result.type).to(eq(type))
+            expect(result.payload).to(eq(payload))
+            expect(result.object).to(be_a(klass))
           end
         end
       end
