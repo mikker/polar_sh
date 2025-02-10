@@ -26,10 +26,6 @@ module Polar
       response = Client.delete_request("/v1/benefits/#{id}")
       handle_one(response)
     end
-
-    def self.list_grants(id)
-      response = Client.get_request("/v1/benefits/#{id}/grants")
-      handle_list(response)
-    end
   end
-end 
+end
+

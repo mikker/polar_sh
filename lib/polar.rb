@@ -14,6 +14,7 @@ module Polar
   autoload :Webhook, "polar/webhook"
 
   autoload :Benefit, "polar/resources/benefit"
+  autoload :BenefitGrant, "polar/resources/benefit_grant"
   autoload :Customer, "polar/resources/customer"
   autoload :CustomerSession, "polar/resources/customer_session"
   autoload :Discount, "polar/resources/discount"

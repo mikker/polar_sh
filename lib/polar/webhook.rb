@@ -37,6 +37,8 @@ module Polar
         Organization.handle_one(payload[:data])
       when /^benefit\./
         Benefit.handle_one(payload[:data])
+      when /^benefit_grant\./
+        BenefitGrant.handle_one(payload[:data])
       end
     end
 
