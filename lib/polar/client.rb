@@ -10,12 +10,22 @@ module Polar
           .persistent(Polar.config.endpoint)
           .follow
           .auth("Bearer #{Polar.config.access_token}")
-          .headers(
-            accept: "application/json",
-            content_type: "application/json",
-            user_agent: "polar_sh/v#{VERSION} (github.com/mikker/polar_sh)"
-          )
+          .headers(headers)
         # .use(logging: {logger: Logger.new(STDOUT)})
+      end
+
+      def headers
+        headers = {
+          accept: "application/json",
+          content_type: "application/json",
+          user_agent: "polar_sh/v#{VERSION} (github.com/mikker/polar_sh)"
+        }
+        # Omitting the header falls back to the API's current version, which
+        # changes with each quarterly release.
+        if (api_version = Polar.config.api_version)
+          headers[:polar_version] = api_version
+        end
+        headers
       end
 
       def get_request(path, **params)

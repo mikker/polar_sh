@@ -57,6 +57,21 @@ class WebhooksController < ApplicationController
 end
 ```
 
+## API versioning
+
+Requests are pinned to the `2026-04` Polar API version by default, sent as a
+`Polar-Version` header. Pin to a different version with:
+
+```ruby
+Polar.configure do |config|
+  config.api_version = "2026-10"
+end
+```
+
+Setting `api_version` to `nil` omits the header. Polar then falls back to
+whichever version is current, which changes at each quarterly release, so
+pinning is recommended.
+
 ## Development
 
 ```sh
