@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Allow `http` 6
+- Fix `Polar::Error#message` to start with the HTTP status name
 - Pin requests to the `2026-04` Polar API version via the `Polar-Version` header, configurable with `config.api_version`
 - Declare `base64` as a dependency so the gem loads on Ruby 3.4+
 

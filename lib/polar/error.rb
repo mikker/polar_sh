@@ -6,12 +6,12 @@ module Polar
     end
 
     def initialize(message, error: nil, status: nil)
-      @message = message
+      super(message)
       @error = error
       @status = status
     end
 
-    attr_reader :message, :error, :status
+    attr_reader :error, :status
 
     def self.from_response(response)
       error = PolarError.new(response.parse)
